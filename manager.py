@@ -12,6 +12,7 @@ class Config(object):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     REDIS_HOST = "127.0.0.1"
     REDIS_PORT = 6379
+    DEBUG = True
 
 
 app.config.from_object(Config)
@@ -33,4 +34,4 @@ def index():
     return 'index'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    manager.run()
