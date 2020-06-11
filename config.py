@@ -15,3 +15,20 @@ class Config(object):
     PERMANENT_SESSION_LIFETIME = 86400 * 2
     #制定SESSION保存到REDIS
     SESSION_REDIS = StrictRedis(host=REDIS_HOST,port=REDIS_PORT)
+
+class DevelelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+class TestingConfig(Config):
+    DEBUG = True
+    TESTING = True
+
+
+config={
+    "Develop" : DevelelopmentConfig,
+    "Testing" : TestingConfig,
+    "PRODUCTION" : ProductionConfig
+}
