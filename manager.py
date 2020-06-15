@@ -6,12 +6,11 @@ from flask_migrate import Migrate,MigrateCommand
 
 from info import create_app,db
 
-                   #mysql+pymysql://root:dzd123@localhost/你的数据库名
+import logging
 
 
 
-
-app = create_app('Testing')
+app = create_app('testing')
 
 manager = Manager(app)
 #将app与db链接起来
@@ -23,7 +22,11 @@ manager.add_command('db',MigrateCommand)
 @app.route('/')
 def index():
     session["name"] = "itheima"
+    logging.debug('测试bug')
+    logging.info('info数据')
+    logging.error('错误数据')
     return 'inde333333x'
+
 
 if __name__ == '__main__':
     manager.run()
