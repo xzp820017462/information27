@@ -19,14 +19,6 @@ manager.add_command('db',MigrateCommand)
 
 
 
-@app.route('/')
-def index():
-    session["name"] = "itheima"
-    logging.debug('测试bug')
-    logging.info('info数据')
-    logging.error('错误数据')
-    return 'inde333333x'
-
 
 if __name__ == '__main__':
     manager.run()

@@ -6,11 +6,12 @@ from flask_sqlalchemy import SQLAlchemy
 from redis import StrictRedis
 
 from flask import Flask,session
-from flask_migrate import Manager,Migrate
 from flask_wtf import CSRFProtect
 from config import config
+
 #在flask里面可以先初始化扩展的对象,然后再调用init_app
 db = SQLAlchemy()
+redis_store = None #type: reids.StrictRedis
 
 def create_app(config_name):
     #配置日志，并且传入配置名字，以便能获取到指定的配置所对应的日志等级
@@ -18,10 +19,17 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     db.init_app(app)
-    redis_sotre = StrictRedis(host=config[config_name].REDIS_HOST,port=config[config_name].REDIS_PORT)
+    global redis_store
+    redis_store = StrictRedis(host=config[config_name].REDIS_HOST,port=config[config_name].REDIS_PORT)
     CSRFProtect(app)
     Session(app)
+    #注册蓝图
+    from info.modules.index import index_blu
+    app.register_blueprint(index_blu)
     return app
+
+
+
 
 def setup_log(config_name):
     logging.basicConfig(level=config[config_name].LOG_LEVEL) #调试debu级
